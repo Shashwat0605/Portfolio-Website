@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useLayoutEffect } from 'react'
 import { createPortal } from 'react-dom'
 import DesignerExperience from './DesignerExperience'
 import AboutPage from './AboutPage'
@@ -9,8 +9,8 @@ import PersonalGuide from './PersonalGuide'
 type Page = 'home' | 'designer' | 'photographer' | 'about' | 'contact'
 
 const assetPathPrefix = '/assets'
-const imgDesignerHero = `${assetPathPrefix}/designer/aca45.png`
-const imgPhotographerHero = `${assetPathPrefix}/4ea03.png`
+const imgDesignerHero = `${assetPathPrefix}/designer/aca45.webp`
+const imgPhotographerHero = `${assetPathPrefix}/4ea03.webp`
 
 const knobBg = "url(\"data:image/svg+xml;utf8,<svg viewBox='0 0 9 9' xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none'><rect x='0' y='0' height='100%' width='100%' fill='url(%23grad)' opacity='1'/><defs><radialGradient id='grad' gradientUnits='userSpaceOnUse' cx='0' cy='0' r='10' gradientTransform='matrix(0 -0.82731 -0.82731 0 3.15 3.15)'><stop stop-color='rgba(90,90,90,1)' offset='0'/><stop stop-color='rgba(62,62,62,1)' offset='0.5'/><stop stop-color='rgba(34,34,34,1)' offset='1'/></radialGradient></defs></svg>\")"
 const hingeGrad = "linear-gradient(116.56505117707799deg, rgb(74, 74, 74) 0%, rgb(46, 46, 46) 100%)"
@@ -84,6 +84,8 @@ function DesktopDoor({
           alt=""
           className="absolute inset-0 max-w-none object-cover pointer-events-none size-full"
           src={isLeft ? imgDesignerHero : imgPhotographerHero}
+          fetchPriority="low"
+          decoding="async"
           style={{ objectFit: isLeft ? 'cover' : 'contain', objectPosition: 'center' }}
         />
         <div className="absolute bg-[rgba(240,237,232,0.1)]" style={{ width: 228.011, height: 478.001 }} />
@@ -200,6 +202,8 @@ function MobileDoor({
           alt=""
           className="absolute inset-0 max-w-none object-cover pointer-events-none size-full"
           src={isLeft ? imgDesignerHero : imgPhotographerHero}
+          fetchPriority="low"
+          decoding="async"
           style={{ objectFit: isLeft ? 'cover' : 'contain', objectPosition: 'center' }}
         />
         <div className="absolute bg-[rgba(240,237,232,0.1)]" style={{ width: 92.624, height: 181.118 }} />
@@ -293,15 +297,15 @@ function PhotographerPage({ onBack, onAbout, onContact }: { onBack: () => void; 
 
   const ap = '/assets'
   const images = {
-    right1: `${ap}/33cd7.png`,
-    portrait: `${ap}/4ea03.png`,
-    left1: `${ap}/d931d.png`,
-    left2: `${ap}/a3fb1.png`,
-    bw: `${ap}/7455f.png`,
-    right2: `${ap}/1140d.png`,
-    right3: `${ap}/afafc.png`,
-    wildlifeThumb: `${ap}/69b16.png`,
-    landscapeThumb: `${ap}/e7d3d.png`,
+    right1: `${ap}/33cd7.webp`,
+    portrait: `${ap}/4ea03.webp`,
+    left1: `${ap}/d931d.webp`,
+    left2: `${ap}/a3fb1.webp`,
+    bw: `${ap}/7455f.webp`,
+    right2: `${ap}/1140d.webp`,
+    right3: `${ap}/afafc.webp`,
+    wildlifeThumb: `${ap}/69b16.webp`,
+    landscapeThumb: `${ap}/e7d3d.webp`,
   }
 
   const scrollTo = (id: string) => {
@@ -344,13 +348,13 @@ function PhotographerPage({ onBack, onAbout, onContact }: { onBack: () => void; 
 
       <section className="photo-hero" id="photo-top">
         <div className="photo-display-title">LOOK CLOSER</div>
-        <div className="photo-portrait"><img src={images.portrait} alt="Shashwat Shaurya" /></div>
-        <div className="photo-card photo-card-left-1"><img src={images.left1} alt="A bird floating on water" /></div>
-        <div className="photo-card photo-card-left-2"><img src={images.left2} alt="A bird with vivid red markings" /></div>
-        <div className="photo-card photo-card-center"><img src={images.bw} alt="Birds in black and white" /></div>
-        <div className="photo-card photo-card-right-1"><img src={images.right3} alt="An owl looking through a tree hollow" /></div>
-        <div className="photo-card photo-card-right-2"><img src={images.right2} alt="A bird beside the water" /></div>
-        <div className="photo-card photo-card-right-3"><img src={images.right1} alt="An orange bird perched on a branch" /></div>
+        <div className="photo-portrait"><img src={images.portrait} alt="Shashwat Shaurya" loading="eager" fetchPriority="high" decoding="async" /></div>
+        <div className="photo-card photo-card-left-1"><img src={images.left1} alt="A bird floating on water" loading="lazy" fetchPriority="low" decoding="async" /></div>
+        <div className="photo-card photo-card-left-2"><img src={images.left2} alt="A bird with vivid red markings" loading="lazy" fetchPriority="low" decoding="async" /></div>
+        <div className="photo-card photo-card-center"><img src={images.bw} alt="Birds in black and white" loading="lazy" fetchPriority="low" decoding="async" /></div>
+        <div className="photo-card photo-card-right-1"><img src={images.right3} alt="An owl looking through a tree hollow" loading="lazy" fetchPriority="low" decoding="async" /></div>
+        <div className="photo-card photo-card-right-2"><img src={images.right2} alt="A bird beside the water" loading="lazy" fetchPriority="low" decoding="async" /></div>
+        <div className="photo-card photo-card-right-3"><img src={images.right1} alt="An orange bird perched on a branch" loading="lazy" fetchPriority="low" decoding="async" /></div>
       </section>
 
       <section className="photo-info" id="about">
@@ -439,7 +443,7 @@ function PhotoNav({
       <div className="photo-nav-main">
         <span>Shashwat.</span>
         <button type="button" onClick={onToggle} aria-expanded={open} aria-label={open ? 'Close navigation' : 'Open navigation'}>
-          <img src={open ? '/assets/29e27.svg' : '/assets/f182c.svg'} alt="" />
+          <span className={`nav-toggle-icon${open ? ' nav-toggle-icon-open' : ''}`} aria-hidden="true"><span /><span /><span /></span>
         </button>
       </div>
       <div className={`photo-nav-menu ${open ? 'photo-nav-menu-open' : ''}`}>
@@ -454,43 +458,43 @@ function PhotoNav({
 }
 
 const wildlifeGalleryAssets = {
-  owl: '/assets/afafc.png',
-  pitta: '/assets/c48e8.png',
-  flock: '/assets/3beff.png',
-  deer: '/assets/29833.png',
-  shorebird: '/assets/fd5ac.png',
-  eagle: '/assets/a353d.png',
-  nest: '/assets/45afe.png',
-  crab: '/assets/01c93.png',
-  raptor: '/assets/3cee7.png',
-  monarch: '/assets/c3194.png',
-  longTailedJacana: '/assets/long-tailed-jacana.png',
-  birds: '/assets/3f01b.png',
-  kite: '/assets/eb554.png',
-  blackKite: '/assets/51f92.png',
-  monochrome: '/assets/7455f.png',
-  pochard: '/assets/8a1d0.png',
-  jacana: '/assets/16699.png',
-  flamingo: '/assets/4153d.png',
-  harrier: '/assets/410a6.png',
-  canopy: '/assets/001d3.png',
-  leafBird: '/assets/02ade.png',
-  gulls: '/assets/12532.png',
-  gull: '/assets/d931d.png',
-  bulbul: '/assets/8cb07.png',
-  flight: '/assets/83cfc.png',
+  owl: '/assets/afafc.webp',
+  pitta: '/assets/c48e8.webp',
+  flock: '/assets/3beff.webp',
+  deer: '/assets/29833.webp',
+  shorebird: '/assets/fd5ac.webp',
+  eagle: '/assets/a353d.webp',
+  nest: '/assets/45afe.webp',
+  crab: '/assets/01c93.webp',
+  raptor: '/assets/3cee7.webp',
+  monarch: '/assets/c3194.webp',
+  longTailedJacana: '/assets/long-tailed-jacana.webp',
+  birds: '/assets/3f01b.webp',
+  kite: '/assets/eb554.webp',
+  blackKite: '/assets/51f92.webp',
+  monochrome: '/assets/7455f.webp',
+  pochard: '/assets/8a1d0.webp',
+  jacana: '/assets/16699.webp',
+  flamingo: '/assets/4153d.webp',
+  harrier: '/assets/410a6.webp',
+  canopy: '/assets/001d3.webp',
+  leafBird: '/assets/02ade.webp',
+  gulls: '/assets/12532.webp',
+  gull: '/assets/d931d.webp',
+  bulbul: '/assets/8cb07.webp',
+  flight: '/assets/83cfc.webp',
 }
 
 const landscapeGalleryAssets = [
-  '/assets/e855a.png',
-  '/assets/b8606.png',
-  '/assets/6fd75.png',
-  '/assets/a7984.png',
-  '/assets/126c5.png',
-  '/assets/b55d9.png',
-  '/assets/65109.png',
-  '/assets/d618b.png',
-  '/assets/3a857.png',
+  '/assets/e855a.webp',
+  '/assets/b8606.webp',
+  '/assets/6fd75.webp',
+  '/assets/a7984.webp',
+  '/assets/126c5.webp',
+  '/assets/b55d9.webp',
+  '/assets/65109.webp',
+  '/assets/d618b.webp',
+  '/assets/3a857.webp',
 ]
 
 function PhotoGalleryPage({
@@ -511,6 +515,10 @@ function PhotoGalleryPage({
   onNavigate: (id: string) => void
 }) {
   const wildlife = kind === 'wildlife'
+
+  useLayoutEffect(() => {
+    window.scrollTo(0, 0)
+  }, [kind])
 
   return (
     <div className={`photo-gallery-page ${wildlife ? 'wildlife-gallery-page' : 'landscape-gallery-page'}`}>
@@ -611,7 +619,7 @@ function GalleryImage({ src, className = '' }: { src: string; className?: string
   return (
     <>
       <button className={`gallery-image ${className}`} type="button" onClick={() => setOpen(true)} aria-label="Open image full size">
-        <img src={src} alt="" />
+        <img src={src} alt="" loading="lazy" fetchPriority="low" decoding="async" />
       </button>
       {open && createPortal(
         <div className="gallery-lightbox" role="dialog" aria-modal="true" aria-label="Full-screen photograph" onClick={() => setOpen(false)}>
@@ -620,7 +628,7 @@ function GalleryImage({ src, className = '' }: { src: string; className?: string
               <path d="M4 4L16 16M16 4L4 16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
             </svg>
           </button>
-          <img src={src} alt="" onClick={(event) => event.stopPropagation()} />
+          <img src={src} alt="" decoding="async" onClick={(event) => event.stopPropagation()} />
         </div>,
         document.body,
       )}
@@ -651,7 +659,7 @@ function GalleryRow({
       </button>
       <div className="photo-gallery-row-content">
         <button className="photo-gallery-preview" type="button" onClick={onOpen} aria-label={`Open ${title} gallery`}>
-          <img src={image} alt="" />
+          <img src={image} alt="" loading="lazy" fetchPriority="low" decoding="async" />
         </button>
         <p>{description}</p>
       </div>
@@ -771,8 +779,8 @@ export default function App() {
   const [cinemaTarget, setCinemaTarget] = useState<'designer' | 'photographer' | null>(null)
 
   useEffect(() => {
-    const leaveTimer = window.setTimeout(() => setLoaderState('leaving'), 1700)
-    const doneTimer = window.setTimeout(() => setLoaderState('done'), 2200)
+    const leaveTimer = window.setTimeout(() => setLoaderState('leaving'), 280)
+    const doneTimer = window.setTimeout(() => setLoaderState('done'), 500)
     return () => {
       window.clearTimeout(leaveTimer)
       window.clearTimeout(doneTimer)

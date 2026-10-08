@@ -186,6 +186,36 @@ body,
   place-items: center;
 }
 
+.nav-toggle-icon {
+  display: flex;
+  width: 17px;
+  height: 14px;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.nav-toggle-icon > span {
+  display: block;
+  width: 17px;
+  height: 2px;
+  background: currentColor;
+  border-radius: 2px;
+  transform-origin: center;
+  transition: transform 120ms ease, opacity 80ms ease;
+}
+
+.nav-toggle-icon-open > span:first-child {
+  transform: translateY(6px) rotate(45deg);
+}
+
+.nav-toggle-icon-open > span:nth-child(2) {
+  opacity: 0;
+}
+
+.nav-toggle-icon-open > span:last-child {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
 .designer-nav-menu {
   display: flex;
   gap: 18px;
@@ -199,7 +229,7 @@ body,
   opacity: 0;
   transform: scale(0.1);
   transform-origin: top center;
-  transition: 0.25s ease;
+  transition: transform 150ms ease, opacity 120ms ease, visibility 0s 150ms;
 }
 
 .designer-nav-menu-open {
@@ -1015,7 +1045,7 @@ body,
   color: #0c0c0c;
   background: #fff;
   opacity: 0;
-  transition: opacity 0.7s ease;
+  transition: opacity 0.24s ease;
 }
 
 .photographer-visible {
@@ -1087,7 +1117,7 @@ body,
   opacity: 0;
   transform: scale(0.08);
   transform-origin: top center;
-  transition: transform 0.22s cubic-bezier(0.4, 0, 1, 1), opacity 0.18s ease, visibility 0s 0.22s;
+  transition: transform 140ms ease, opacity 110ms ease, visibility 0s 140ms;
 }
 
 .photo-nav-menu-open {
@@ -1095,7 +1125,7 @@ body,
   pointer-events: auto;
   opacity: 1;
   transform: scale(1);
-  transition: transform 0.42s cubic-bezier(0.34, 1.4, 0.64, 1), opacity 0.2s ease;
+  transition: transform 150ms ease-out, opacity 120ms ease;
 }
 
 .photo-nav-menu button {
@@ -2611,7 +2641,7 @@ body,
   place-items: center;
   background: #fff;
   opacity: 1;
-  transition: opacity 0.5s ease;
+  transition: opacity 0.2s ease;
 }
 
 .initial-loader-leaving {
@@ -2652,7 +2682,7 @@ body,
   background: #111;
   transform: scaleX(0);
   transform-origin: left center;
-  animation: initial-loader-progress 1.7s cubic-bezier(0.5, 0, 0.25, 1) forwards;
+  animation: initial-loader-progress 280ms cubic-bezier(0.5, 0, 0.25, 1) forwards;
 }
 
 @keyframes initial-loader-progress {

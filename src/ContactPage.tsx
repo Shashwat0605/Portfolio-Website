@@ -1,7 +1,7 @@
 export default function ContactPage({ onBack }: { onBack: () => void }) {
   return (
     <main className="contact-page">
-      <img className="contact-hammock" src="/assets/contact-hammock.png" alt="" />
+      <img className="contact-hammock" src="/assets/contact-hammock.webp" alt="" />
       <button className="contact-back" type="button" onClick={onBack}>← Back</button>
       <div className="contact-content">
         <h1>GET IN TOUCH</h1>

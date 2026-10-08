@@ -1,13 +1,13 @@
 import { useState } from 'react'
 
 const aboutPhotos = [
-  { src: '/assets/about-river.jpg', alt: 'Walking through a river in the forest' },
-  { src: '/assets/about-photographer.jpg', alt: 'Photographing the mountains from a rocky overlook' },
-  { src: '/assets/about-portrait-bw.jpg', alt: 'Black and white portrait on a mountain' },
-  { src: '/assets/about-mist-road.png', alt: 'A motorcycle on a misty forest road' },
-  { src: '/assets/about-hillside.jpg', alt: 'Sitting on a hillside above the forest' },
-  { src: '/assets/about-beach.jpg', alt: 'Standing beside a surfboard at the beach' },
-  { src: '/assets/about-forest-ride.jpg', alt: 'Riding a motorcycle through a green forest' },
+  { src: '/assets/about-river.webp', alt: 'Walking through a river in the forest' },
+  { src: '/assets/about-photographer.webp', alt: 'Photographing the mountains from a rocky overlook' },
+  { src: '/assets/about-portrait-bw.webp', alt: 'Black and white portrait on a mountain' },
+  { src: '/assets/about-mist-road.webp', alt: 'A motorcycle on a misty forest road' },
+  { src: '/assets/about-hillside.webp', alt: 'Sitting on a hillside above the forest' },
+  { src: '/assets/about-beach.webp', alt: 'Standing beside a surfboard at the beach' },
+  { src: '/assets/about-forest-ride.webp', alt: 'Riding a motorcycle through a green forest' },
 ]
 
 export default function AboutPage({ onBack }: { onBack: () => void }) {
@@ -25,8 +25,10 @@ export default function AboutPage({ onBack }: { onBack: () => void }) {
         <section className="about-intro" aria-label="About Shashwat">
           <img
             className="about-illustration"
-            src="/assets/about-studio-illustration.png"
+            src="/assets/about-studio-illustration.webp"
             alt="Illustration of a designer and photographer working in a studio"
+            fetchPriority="high"
+            decoding="async"
           />
           <a
             className="about-resume"
@@ -65,7 +67,7 @@ export default function AboutPage({ onBack }: { onBack: () => void }) {
                     aria-pressed={selectedPhoto === index}
                     onClick={() => setSelectedPhoto(selectedPhoto === index ? null : index)}
                   >
-                    <img src={photo.src} alt={copy === 0 ? photo.alt : ''} loading="lazy" />
+                    <img src={photo.src} alt={copy === 0 ? photo.alt : ''} loading="lazy" fetchPriority="low" decoding="async" />
                   </button>
                 )
               })}

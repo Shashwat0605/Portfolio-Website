@@ -1,7 +1,7 @@
 export default function PortfolioFooter({ onAbout, onContact }: { onAbout: () => void; onContact: () => void }) {
   return (
     <footer className="designer-footer" id="designer-contact">
-      <img src="/assets/designer/relaxing-under-foliage.png" alt="" />
+      <img src="/assets/designer/relaxing-under-foliage.webp" alt="" />
       <a href="https://mail.google.com/mail/?view=cm&fs=1&to=shashwat.shaurya2005@gmail.com" target="_blank" rel="noreferrer">
         shashwat.shaurya2005@gmail.com
       </a>

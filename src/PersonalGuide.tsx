@@ -14,6 +14,7 @@ const transcriptTokens = introductionTranscript.match(/\S+\s*/g) ?? []
 
 export default function PersonalGuide() {
   const [open, setOpen] = useState(false)
+  const [audioPrepared, setAudioPrepared] = useState(false)
   const [introPlaying, setIntroPlaying] = useState(false)
   const [showTranscript, setShowTranscript] = useState(false)
   const [transcriptProgress, setTranscriptProgress] = useState(0)
@@ -52,6 +53,10 @@ export default function PersonalGuide() {
 
   useEffect(() => () => audioRef.current?.pause(), [])
 
+  useEffect(() => {
+    if (audioPrepared) audioRef.current?.load()
+  }, [audioPrepared])
+
   const closePanel = () => {
     const audio = audioRef.current
     audio?.pause()
@@ -66,9 +71,17 @@ export default function PersonalGuide() {
     followTranscriptRef.current = true
     setTranscriptProgress(0)
     setShowTranscript(false)
+    setAudioPrepared(true)
     setOpen(true)
-    window.setTimeout(() => { void audioRef.current?.play().catch(() => {}) }, 0)
+    const audio = audioRef.current
+    if (audio) {
+      audio.pause()
+      audio.currentTime = 0
+      void audio.play().catch(() => { setIntroPlaying(false) })
+    }
   }
+
+  const prepareAudio = () => setAudioPrepared(true)
 
   const togglePanel = () => {
     if (open) closePanel()
@@ -93,32 +106,33 @@ export default function PersonalGuide() {
 
   return (
     <>
-      <button ref={tabRef} className={`guide-tab${open ? ' guide-tab-open' : ''}`} type="button" onClick={togglePanel} aria-haspopup="dialog" aria-expanded={open}>
+      <button ref={tabRef} className={`guide-tab${open ? ' guide-tab-open' : ''}`} type="button" onClick={togglePanel} onPointerEnter={prepareAudio} onPointerDown={prepareAudio} onFocus={prepareAudio} aria-haspopup="dialog" aria-expanded={open}>
         <span id="guide-title">Listen about me</span>
         {open && <span className="guide-back-label">← Back</span>}
       </button>
 
+      <audio
+        ref={audioRef}
+        className="guide-audio"
+        preload={audioPrepared ? 'auto' : 'none'}
+        src={introductionAudio}
+        onPlay={() => { setIntroPlaying(true); setShowTranscript(true) }}
+        onPause={() => setIntroPlaying(false)}
+        onTimeUpdate={event => {
+          const audio = event.currentTarget
+          if (Number.isFinite(audio.duration) && audio.duration > 0) {
+            setTranscriptProgress(Math.min(1, audio.currentTime / audio.duration))
+          }
+        }}
+        onEnded={() => { setIntroPlaying(false); setTranscriptProgress(1) }}
+      >Your browser does not support audio playback.</audio>
+
       {open && (
         <div className="guide-backdrop">
           <section ref={panelRef} className="guide-panel" role="dialog" aria-modal="false" aria-labelledby="guide-title">
-            <div className="guide-character"><img src="/assets/shashwat-guide.png" alt="Illustration of Shashwat" /></div>
+            <div className="guide-character"><img src="/assets/shashwat-guide.webp" alt="Illustration of Shashwat" /></div>
             <div className="guide-card">
               <div className="guide-intro-content">
-                <audio
-                  ref={audioRef}
-                  className="guide-audio"
-                  preload="none"
-                  src={introductionAudio}
-                  onPlay={() => { setIntroPlaying(true); setShowTranscript(true) }}
-                  onPause={() => setIntroPlaying(false)}
-                  onTimeUpdate={event => {
-                    const audio = event.currentTarget
-                    if (Number.isFinite(audio.duration) && audio.duration > 0) {
-                      setTranscriptProgress(Math.min(1, audio.currentTime / audio.duration))
-                    }
-                  }}
-                  onEnded={() => { setIntroPlaying(false); setTranscriptProgress(1) }}
-                >Your browser does not support audio playback.</audio>
                 <button className="guide-audio-toggle" type="button" onClick={toggleIntroductionAudio}>
                   {introPlaying ? 'Stop' : 'Start'}
                 </button>

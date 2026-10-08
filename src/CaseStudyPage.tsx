@@ -27,7 +27,7 @@ export default function CaseStudyPage({ id, onBack }: { id: CaseStudyId; onBack:
   return (
     <main className="case-study case-study-image-page">
       <button className="about-back" type="button" onClick={onBack}>← Back</button>
-      <img className="case-study-screenshot" src={image.src} alt={image.alt} />
+      <img className="case-study-screenshot" src={image.src} alt={image.alt} fetchPriority="high" decoding="async" />
     </main>
   )
 }
