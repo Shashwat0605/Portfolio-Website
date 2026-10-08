@@ -1,0 +1,10 @@
+{
+  "description": "Offers a minimalist landing page with two clear options guiding visitors to explore either design or photography portfolios for seamless navigation.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
